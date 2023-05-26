@@ -2,20 +2,61 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+class Location(models.Model):
+    """
+    Локация
+    """
+    city = models.CharField(
+        verbose_name='Город',
+        max_length=250
+    )
+    state_name = models.CharField(
+        verbose_name='Штат',
+        max_length=250
+    )
+    zip_code = models.CharField(
+        verbose_name='Почтовый индекс',
+        primary_key=True,
+        db_index=True,
+        max_length=5,
+    )
+    lng = models.CharField(
+        verbose_name='Долгота',
+        max_length=10
+    )
+    lat = models.CharField(
+        verbose_name='Широта',
+        max_length=10
+    )
+
+    class Meta:
+        verbose_name = 'Локация'
+        verbose_name_plural = 'Локации'
+
+    def __str__(self):
+        return self.zip_code
+
+
 class Cargo(models.Model):
     """
     Груз
     """
-    pick_up = models.CharField(
-        'Индекс места загрузки',
-        max_length=5
+    pick_up = models.ForeignKey(
+        Location,
+        related_name='pick_up',
+        verbose_name='Индекс места загрузки',
+        max_length=5,
+        on_delete=models.CASCADE,
     )
-    delivery = models.CharField(
-        'Индекс места доставки',
-        max_length=5
+    delivery = models.ForeignKey(
+        Location,
+        related_name='delivery',
+        verbose_name='Индекс места доставки',
+        max_length=5,
+        on_delete=models.CASCADE,
     )
     weight = models.IntegerField(
-        'Вес груза',
+        verbose_name='Вес груза',
         validators=[
             MinValueValidator(
                 1,
@@ -28,15 +69,15 @@ class Cargo(models.Model):
         ]
     )
     created_at = models.DateTimeField(
-        'Время создания груза',
+        verbose_name='Время создания груза',
         auto_now_add=True
     )
     updated_at = models.DateTimeField(
-        'Время изменения груза',
+        verbose_name='Время изменения груза',
         auto_now=True
     )
     description = models.CharField(
-        'Описание груза',
+        verbose_name='Описание груза',
         max_length=500
     )
 
@@ -50,17 +91,19 @@ class Truck(models.Model):
     """
     Машина
     """
-    number = models.CharField(
-        'Номер',
+    truck_number = models.CharField(
+        verbose_name='Номер машины',
         max_length=5,
         unique=True,
     )
-    location = models.CharField(
-        'Индекс текущего месторасположения автомобиля',
+    current_location = models.ForeignKey(
+        Location,
+        verbose_name='Индекс текущего месторасположения автомобиля',
         max_length=5,
+        on_delete=models.CASCADE,
     )
     load_capacity = models.IntegerField(
-        'Грузоподъемность',
+        verbose_name='Грузоподъемность',
         validators=[
             MinValueValidator(
                 1,
