@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Location, Truck, Cargo
+
+from .models import Cargo, Location, Truck
 
 
 @admin.register(Location)

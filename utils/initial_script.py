@@ -2,12 +2,11 @@ import os
 import random
 import string
 
+import custom_logger
 import pandas as pd
 import psycopg2
 import psycopg2.extras as extras
 from dotenv import load_dotenv
-
-import custom_logger
 
 load_dotenv()
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -32,7 +31,7 @@ def csv_to_db(conn):
     """
     table = 'delivery_location'
     file_path = os.path.join(base_dir, 'uszips.csv')
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, converters={'zip': str})
     df = df[['zip', 'lat', 'lng', 'city', 'state_name']]
     locations = [tuple(x) for x in df.to_numpy()]
     columns = ','.join(list(df.columns)).replace('zip', 'zip_code')
