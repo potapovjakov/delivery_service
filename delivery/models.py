@@ -30,6 +30,10 @@ class Location(models.Model):
     )
 
     class Meta:
+        ordering = ['zip_code']
+        indexes = [
+            models.Index(fields=['zip_code']),
+        ]
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
 
