@@ -1,7 +1,6 @@
 import logging
 import os
 
-
 _log_format = f"%(asctime)s - [%(levelname)s] - %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,7 +15,7 @@ def get_file_handler():
 
 def get_stream_handler():
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
+    stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(logging.Formatter(_log_format))
     return stream_handler
 
