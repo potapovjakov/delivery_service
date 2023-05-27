@@ -31,7 +31,7 @@ def csv_to_db(conn):
     """
     table = 'delivery_location'
     file_path = os.path.join(base_dir, 'uszips.csv')
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, converters={'zip': str})
     df = df[['zip', 'lat', 'lng', 'city', 'state_name']]
     locations = [tuple(x) for x in df.to_numpy()]
     columns = ','.join(list(df.columns)).replace('zip', 'zip_code')
