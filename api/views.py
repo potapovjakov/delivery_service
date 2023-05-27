@@ -1,8 +1,7 @@
-from rest_framework import generics, status, viewsets
-from api.serializers import TruckSerializer, CargoSerializer
-from delivery.models import Truck, Cargo
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+from rest_framework import generics, viewsets
+from api.serializers import TruckSerializer, CargoSerializer, \
+    LocationSerializer, CargoDetailSerializer
+from delivery.models import Truck, Cargo, Location
 
 
 class TruckViewSet(viewsets.ModelViewSet):
@@ -13,4 +12,14 @@ class TruckViewSet(viewsets.ModelViewSet):
 class CargoViewSet(viewsets.ModelViewSet):
     queryset = Cargo.objects.all()
     serializer_class = CargoSerializer
+
+
+class CargoDetailViewSet(generics.RetrieveUpdateAPIView):
+    queryset = Cargo.objects.all()
+    serializer_class = CargoDetailSerializer
+
+
+class LocationDetailViewSet(generics.RetrieveAPIView):
+    serializer_class = LocationSerializer
+    queryset = Location.objects.all()
 
