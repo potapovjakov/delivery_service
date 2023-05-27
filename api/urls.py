@@ -1,15 +1,29 @@
 from django.urls import include, path
-from api.views import TruckViewSet, CargoViewSet
+from api.views import TruckViewSet, CargoViewSet, LocationDetailViewSet, \
+    CargoDetailViewSet
 from rest_framework.routers import DefaultRouter
 
 
 app_name = 'api'
 
 router = DefaultRouter()
-router.register(r'trucks', TruckViewSet)
-router.register(r'cargos', CargoViewSet)
-
+router.register(r'trucks', TruckViewSet, basename='trucks')
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path(
+        'cargos/',
+        CargoViewSet.as_view({'get': 'list'}),
+        name='cargos'
+    ),
+    path(
+        'cargos/<int:pk>/',
+        CargoDetailViewSet.as_view(),
+        name='cargo_detail'
+    ),
+    path(
+        'locations/<int:pk>/',
+        LocationDetailViewSet.as_view(),
+        name='location_detail'
+    )
 ]
