@@ -1,8 +1,9 @@
+from delivery.models import Cargo, Location, Truck
 from rest_framework import generics, viewsets
-from api.serializers import TruckSerializer, CargoSerializer, \
-    LocationSerializer, CargoDetailSerializer, CargoSerializerWithoutField, \
-    TruckSerializerWithoutField
-from delivery.models import Truck, Cargo, Location
+
+from api.serializers import (CargoDetailSerializer, CargoSerializer,
+                             CargoSerializerWithoutField, LocationSerializer,
+                             TruckSerializer, TruckSerializerWithoutField)
 
 
 class TruckViewSet(viewsets.ModelViewSet):

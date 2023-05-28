@@ -1,6 +1,6 @@
-from delivery.models import Truck, Cargo, Location
-from rest_framework import serializers
+from delivery.models import Cargo, Location, Truck
 from delivery.services import get_all_trucks
+from rest_framework import serializers
 
 
 class TruckSerializer(serializers.ModelSerializer):

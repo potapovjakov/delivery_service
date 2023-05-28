@@ -1,14 +1,13 @@
 from django.urls import include, path
-from api.views import TruckViewSet, CargoViewSet, LocationDetailViewSet, \
-    CargoDetailViewSet
 from rest_framework.routers import DefaultRouter
 
+from api.views import (CargoDetailViewSet, CargoViewSet, LocationDetailViewSet,
+                       TruckViewSet)
 
 app_name = 'api'
 
 router = DefaultRouter()
 router.register(r'trucks', TruckViewSet, basename='trucks')
-#router.register(r'cargos', CargoViewSet, basename='cargos')
 
 urlpatterns = [
     path('', include(router.urls)),
