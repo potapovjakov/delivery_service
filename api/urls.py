@@ -23,7 +23,7 @@ urlpatterns = [
         name='cargo_detail'
     ),
     path(
-        'locations/<int:pk>/',
+        'locations/<str:pk>/',
         LocationDetailViewSet.as_view(),
         name='location_detail'
     )
