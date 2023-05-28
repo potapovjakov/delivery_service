@@ -8,6 +8,7 @@ from delivery.models import Truck, Cargo, Location
 class TruckViewSet(viewsets.ModelViewSet):
     queryset = Truck.objects.all()
     serializer_class = TruckSerializer
+
     def get_serializer_class(self):
         serializer_class = self.serializer_class
         if self.request.method == 'PUT':
@@ -19,8 +20,17 @@ class CargoViewSet(generics.ListCreateAPIView):
     queryset = Cargo.objects.all()
     serializer_class = CargoSerializer
 
+    def get_queryset(self):
+        queryset = Cargo.objects.all()
+        weight = self.request.query_params.get('weight')
 
-class CargoDetailViewSet(generics.RetrieveUpdateAPIView):
+        # ToDo distance = self.request.query_params.get('distance')
+        if weight:
+            queryset = Cargo.objects.filter(weight__lte=weight)
+        return queryset
+
+
+class CargoDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cargo.objects.all()
     serializer_class = CargoDetailSerializer
 
