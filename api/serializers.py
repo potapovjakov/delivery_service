@@ -30,12 +30,16 @@ class TruckSerializerWithoutField(serializers.ModelSerializer):
 class CargoSerializer(serializers.ModelSerializer):
     """
     Для отображения всех полей груза и поля 'nearest_trucks'
-    в котором счетчик всех машин находящихся не далее 450 миль
+    в котором счетчик всех машин находящихся не далее 450 миль,
+    либо расстояния переданного в url параметром 'distance'
     """
-    nearest_trucks = serializers.SerializerMethodField(
-        read_only=True,
-        method_name='get_nearest_trucks_count',
-    )
+    # nearest_trucks_count = serializers.SerializerMethodField(
+    #     read_only=True,
+    #     method_name='get_context_trucks_count',
+    # )
+
+    # def get_context_trucks_count(self, obj) -> int:
+    #     return self.context.get('count')
 
     class Meta:
         model = Cargo
@@ -49,22 +53,8 @@ class CargoSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'description',
-            'nearest_trucks'
+            # 'nearest_trucks_count'
         )
-
-    def get_nearest_trucks_count(self, obj) -> int:
-        """
-        Возвращает количество машин, находящихся
-        не далее чем в 450 милях от точки загрузки
-        :param obj:
-        :return:
-        """
-        dict_trucks = get_all_trucks(obj)
-        count = 0
-        for k, v in dict_trucks.items():
-            if v <= 450:
-                count += 1
-        return count
 
 
 class CargoDetailSerializer(serializers.ModelSerializer):
@@ -77,18 +67,8 @@ class CargoDetailSerializer(serializers.ModelSerializer):
         method_name='get_all_trucks',
     )
 
-
-    def get_all_trucks(self, obj) -> dict:
-        """
-        Возвращает словарь со всеми машинами отсортированный по
-        увеличению расстояния до места загрузки
-        :param obj:
-        :return:
-        """
-        dict_trucks = get_all_trucks(obj)
-        sorted_tuples = sorted(dict_trucks.items(), key=lambda item: item[1])
-        sorted_dict = {k: v for k, v in sorted_tuples}
-        return sorted_dict
+    def get_all_trucks(self, obj):
+        return self.context.get('all_trucks_dict')
 
     class Meta:
         model = Cargo
