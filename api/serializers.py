@@ -64,7 +64,7 @@ class CargoSerializer(serializers.ModelSerializer):
         distance = self.get_context_distance(obj)
         count = 0
         for k, v in dict_trucks.items():
-            if v >= distance:
+            if v <= distance:
                 count += 1
         return count
 
