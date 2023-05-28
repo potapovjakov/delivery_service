@@ -9,7 +9,6 @@ class TruckSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Truck
-        depth = 1
         fields = (
             'id',
             'truck_number',
@@ -37,10 +36,11 @@ class CargoSerializer(serializers.ModelSerializer):
         method_name='get_nearest_trucks_count',
     )
 
+    def get_context_distance(self, obj) -> int:
+        return self.context.get('distance')
+
     class Meta:
         model = Cargo
-        depth = 1
-
         fields = (
             'id',
             'pick_up',
@@ -55,14 +55,16 @@ class CargoSerializer(serializers.ModelSerializer):
     def get_nearest_trucks_count(self, obj) -> int:
         """
         Возвращает количество машин, находящихся
-        не далее чем в 450 милях от точки загрузки
+        не далее чем в 450 (либо количество миль переданных в url
+         параметром 'distance') милях от точки загрузки
         :param obj:
         :return:
         """
         dict_trucks = get_all_trucks(obj)
+        distance = self.get_context_distance(obj)
         count = 0
         for k, v in dict_trucks.items():
-            if v <= 450:
+            if v >= distance:
                 count += 1
         return count
 
@@ -76,7 +78,6 @@ class CargoDetailSerializer(serializers.ModelSerializer):
         read_only=True,
         method_name='get_all_trucks',
     )
-
 
     def get_all_trucks(self, obj) -> dict:
         """
@@ -92,7 +93,6 @@ class CargoDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cargo
-        depth = 1
         fields = (
             'id',
             'pick_up',

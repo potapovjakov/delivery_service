@@ -1,7 +1,6 @@
-from django.shortcuts import get_object_or_404
 from geopy.distance import geodesic
 
-from delivery.models import Location, Truck
+from delivery.models import Truck
 
 
 def get_all_trucks(obj) -> dict:
