@@ -30,7 +30,6 @@ class CargoViewSet(generics.ListCreateAPIView):
 
     def get_serializer_context(self):
         distance = self.request.query_params.get('distance')
-        print('distance ', distance)
         if distance is None:
             distance = 450
         return {'distance': int(distance)}
