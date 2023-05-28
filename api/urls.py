@@ -8,12 +8,13 @@ app_name = 'api'
 
 router = DefaultRouter()
 router.register(r'trucks', TruckViewSet, basename='trucks')
+#router.register(r'cargos', CargoViewSet, basename='cargos')
 
 urlpatterns = [
     path('', include(router.urls)),
     path(
         'cargos/',
-        CargoViewSet.as_view({'get': 'list'}),
+        CargoViewSet.as_view(),
         name='cargos'
     ),
     path(
