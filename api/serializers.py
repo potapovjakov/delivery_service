@@ -9,6 +9,7 @@ class TruckSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Truck
+        depth = 1
         fields = (
             'id',
             'truck_number',
@@ -38,6 +39,8 @@ class CargoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cargo
+        depth = 1
+
         fields = (
             'id',
             'pick_up',
@@ -89,6 +92,7 @@ class CargoDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cargo
+        depth = 1
         fields = (
             'id',
             'pick_up',
