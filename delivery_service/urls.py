@@ -1,14 +1,14 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
+from django.urls import include, path, re_path
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
       title="Delivery Service API",
       default_version='v1',
-      description="Test description",
+      description="Description",
       contact=openapi.Contact(email="admin@delivery.local"),
       license=openapi.License(name="BSD License"),
    ),
