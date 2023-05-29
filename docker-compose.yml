@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+
+  db:
+    image: postgres:14.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+
+  web:
+    build: .
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+    volumes:
+      - static_value:/app/static/
+
+    entrypoint: ["./docker-entrypoint.sh"]
+
+  redis:
+    image: redis:7.0.5-alpine
+    hostname: redis
+    depends_on:
+      - web
+
+
+  worker:
+    build: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker -B --loglevel=INFO
+    volumes:
+      - ./delivery:/delivery
+    links:
+      - redis
+    depends_on:
+      - nginx
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8000:80
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - static_value:/var/html/static/
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_value:

@@ -6,7 +6,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_file_handler():
-    file_path = os.path.join(base_dir, '../logs/delivery.log')
+    file_path = os.path.join(base_dir, '../system_log.log')
     file_handler = logging.FileHandler(file_path)
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(logging.Formatter(_log_format))

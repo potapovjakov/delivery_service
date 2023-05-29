@@ -4,7 +4,7 @@ from django.db import models
 
 class Location(models.Model):
     """
-    Локация
+    Местоположение
     """
     city = models.CharField(
         verbose_name='Город',
