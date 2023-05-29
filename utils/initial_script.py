@@ -2,11 +2,12 @@ import os
 import random
 import string
 
-import custom_logger
 import pandas as pd
 import psycopg2
 import psycopg2.extras as extras
 from dotenv import load_dotenv
+
+import custom_logger
 
 load_dotenv()
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -57,11 +58,10 @@ def add_trucks(conn):
     :param conn:
     :return:
     """
-    query = """SELECT zip_code FROM delivery_location"""
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute("""DELETE FROM delivery_truck""")
+    cursor.execute("""SELECT zip_code FROM delivery_location""")
     zip_codes = cursor.fetchall()
-
     truck_numbers = []
 
     def generate_truck_number():
