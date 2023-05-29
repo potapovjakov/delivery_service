@@ -9,8 +9,8 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*').split(',')
 SECRET_KEY = os.getenv('SECRET_KEY', default='123')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+DEBUG = False
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,11 +25,15 @@ INSTALLED_APPS = [
     'api',
     'delivery',
     'django_celery_beat',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -65,8 +69,8 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', default='postgres'),
         'USER': os.getenv('POSTGRES_USER', default='postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
-        'HOST': os.getenv('DB_HOST', default='192.168.10.11'),
-        'PORT': os.getenv('DB_PORT', default='5555')
+        'HOST': os.getenv('DB_HOST', default='db'),
+        'PORT': os.getenv('DB_PORT', default='5432')
     }
 }
 
@@ -94,11 +98,20 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'PAGE_SIZE': 100
 }
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BROKER_URL = 'redis://redis:6379'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.01:8000',
+]
