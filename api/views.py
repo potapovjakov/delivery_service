@@ -1,23 +1,39 @@
 from delivery.models import Cargo, Location, Truck
-from rest_framework import generics, viewsets
+from rest_framework import generics
 
 from api.serializers import (CargoDetailSerializer, CargoSerializer,
-                             CargoSerializerWithoutField, LocationSerializer,
-                             TruckSerializer, TruckSerializerWithoutField)
+                             CargoSerializerEditField,
+                             TruckSerializer, TruckSerializerEditField,
+                             LocationDetailSerializer)
 
 
-class TruckViewSet(viewsets.ModelViewSet):
+class TruckViewSet(generics.ListAPIView):
+    """
+    Список всех машин
+    """
+    queryset = Truck.objects.all()
+    serializer_class = TruckSerializer
+
+
+class TruckDetailViewSet(generics.RetrieveUpdateAPIView):
+    """
+    Детальная информация о машине по ID с возможностью
+    редактировать текущее местоположение
+    """
     queryset = Truck.objects.all()
     serializer_class = TruckSerializer
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
         if self.request.method == 'PUT':
-            serializer_class = TruckSerializerWithoutField
+            serializer_class = TruckSerializerEditField
         return serializer_class
 
 
 class CargoViewSet(generics.ListCreateAPIView):
+    """
+    Список всех грузов
+    """
     serializer_class = CargoSerializer
 
     def get_queryset(self):
@@ -36,16 +52,23 @@ class CargoViewSet(generics.ListCreateAPIView):
 
 
 class CargoDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Детальная информация о грузе с возможностью изменить вес и
+    описание
+    """
     queryset = Cargo.objects.all()
     serializer_class = CargoDetailSerializer
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
         if self.request.method == 'PUT':
-            serializer_class = CargoSerializerWithoutField
+            serializer_class = CargoSerializerEditField
         return serializer_class
 
 
-class LocationDetailViewSet(generics.RetrieveAPIView):
-    serializer_class = LocationSerializer
+class LocationDetailViewSet(generics.ListAPIView):
+    """
+    Просмотр координат локации по zip_code
+    """
+    serializer_class = LocationDetailSerializer
     queryset = Location.objects.all()

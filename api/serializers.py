@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 class TruckSerializer(serializers.ModelSerializer):
     """
-    Для создания записи о машине и отображения всех полей
+    Просмотр всех машин
     """
     class Meta:
         model = Truck
@@ -17,7 +17,7 @@ class TruckSerializer(serializers.ModelSerializer):
         )
 
 
-class TruckSerializerWithoutField(serializers.ModelSerializer):
+class TruckSerializerEditField(serializers.ModelSerializer):
     """
     Позволяет редактировать только текущее месторасположение
     """
@@ -29,7 +29,9 @@ class TruckSerializerWithoutField(serializers.ModelSerializer):
 class CargoSerializer(serializers.ModelSerializer):
     """
     Для отображения всех полей груза и поля 'nearest_trucks'
-    в котором счетчик всех машин находящихся не далее 450 миль
+    в котором счетчик всех машин находящихся не далее 450
+    миль (либо количества миль переданного в url параметре 'distance')
+    Груз можно отфильтровать по весу переданном в url параметре 'weight'
     """
     nearest_trucks = serializers.SerializerMethodField(
         read_only=True,
@@ -55,8 +57,8 @@ class CargoSerializer(serializers.ModelSerializer):
     def get_nearest_trucks_count(self, obj) -> int:
         """
         Возвращает количество машин, находящихся
-        не далее чем в 450 (либо количество миль переданных в url
-         параметром 'distance') милях от точки загрузки
+        не далее чем в 450 милях (либо количество миль переданных в url
+         параметре 'distance') от точки загрузки
         :param obj:
         :return:
         """
@@ -105,7 +107,7 @@ class CargoDetailSerializer(serializers.ModelSerializer):
         )
 
 
-class CargoSerializerWithoutField(serializers.ModelSerializer):
+class CargoSerializerEditField(serializers.ModelSerializer):
     """
     Позволяет редактировать только вес и описание
     """
@@ -114,9 +116,9 @@ class CargoSerializerWithoutField(serializers.ModelSerializer):
         fields = ('weight', 'description')
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationDetailSerializer(serializers.ModelSerializer):
     """
-    Возвращает только широту и долготу
+    Возвращает только координаты (широту и долготу) локации
     """
 
     class Meta:
