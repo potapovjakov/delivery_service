@@ -1,9 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from api.views import (CargoDetailViewSet, CargoViewSet,
-                       LocationDetailViewSet,
-                       TruckViewSet, TruckDetailViewSet)
+from api.views import (CargoDetailViewSet, CargoViewSet, LocationDetailViewSet,
+                       LocationViewSet, TruckDetailViewSet, TruckViewSet)
 
 app_name = 'api'
 
@@ -20,6 +19,11 @@ urlpatterns = [
         'cargos/<int:pk>/',
         CargoDetailViewSet.as_view(),
         name='cargo_detail'
+    ),
+    path(
+        'locations/',
+        LocationViewSet.as_view(),
+        name='locations'
     ),
     path(
         'locations/<str:pk>/',

@@ -116,14 +116,11 @@ class CargoSerializerEditField(serializers.ModelSerializer):
         fields = ('weight', 'description')
 
 
-class LocationDetailSerializer(serializers.ModelSerializer):
+class LocationSerializer(serializers.ModelSerializer):
     """
-    Возвращает только координаты (широту и долготу) локации
+    Возвращает все локации
     """
 
     class Meta:
         model = Location
-        fields = (
-            'lat',
-            'lng',
-        )
+        fields = '__all__'

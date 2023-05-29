@@ -1,10 +1,10 @@
 from delivery.models import Cargo, Location, Truck
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 
 from api.serializers import (CargoDetailSerializer, CargoSerializer,
-                             CargoSerializerEditField,
-                             TruckSerializer, TruckSerializerEditField,
-                             LocationDetailSerializer)
+                             CargoSerializerEditField, LocationSerializer,
+                             TruckSerializer, TruckSerializerEditField)
 
 
 class TruckViewSet(generics.ListAPIView):
@@ -66,9 +66,18 @@ class CargoDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
         return serializer_class
 
 
+class LocationViewSet(generics.ListAPIView):
+    """
+    Просмотр всех локаций
+    """
+    serializer_class = LocationSerializer
+    queryset = Location.objects.all()
+    pagination_class = PageNumberPagination
+
+
 class LocationDetailViewSet(generics.ListAPIView):
     """
     Просмотр координат локации по zip_code
     """
-    serializer_class = LocationDetailSerializer
+    serializer_class = LocationSerializer
     queryset = Location.objects.all()
