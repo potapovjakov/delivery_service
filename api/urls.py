@@ -1,13 +1,13 @@
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
-from api.views import (CargoDetailViewSet, CargoViewSet, LocationDetailViewSet,
-                       TruckViewSet)
+from api.views import (CargoDetailViewSet, CargoViewSet,
+                       LocationDetailViewSet,
+                       TruckViewSet, TruckDetailViewSet)
 
 app_name = 'api'
 
-router = DefaultRouter()
-router.register(r'trucks', TruckViewSet, basename='trucks')
+router = SimpleRouter()
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -25,5 +25,15 @@ urlpatterns = [
         'locations/<str:pk>/',
         LocationDetailViewSet.as_view(),
         name='location_detail'
-    )
+    ),
+    path(
+        'trucks/',
+        TruckViewSet.as_view(),
+        name='trucks'
+    ),
+    path(
+        'trucks/<str:pk>/',
+        TruckDetailViewSet.as_view(),
+        name='trucks_detail'
+    ),
 ]
