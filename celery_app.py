@@ -12,11 +12,6 @@ app.conf.broker_url = settings.CELERY_BROKER_URL
 app.autodiscover_tasks()
 
 
-# @app.on_after_configure.connect
-# def setup_periodic_tasks(sender, **kwargs):
-#     sender.add_periodic_task(30.0, update_trucks())
-
-
 @app.task()
 def update_trucks():
     from delivery.services import auto_update_tracks_location

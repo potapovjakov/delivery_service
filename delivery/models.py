@@ -3,16 +3,14 @@ from django.db import models
 
 
 class Location(models.Model):
-    """
-    Местоположение
-    """
+    """Модель представления Местоположения """
     city = models.CharField(
         verbose_name='Город',
-        max_length=250
+        max_length=250,
     )
     state_name = models.CharField(
         verbose_name='Штат',
-        max_length=250
+        max_length=250,
     )
     zip_code = models.CharField(
         verbose_name='Почтовый индекс',
@@ -22,11 +20,11 @@ class Location(models.Model):
     )
     lng = models.CharField(
         verbose_name='Долгота',
-        max_length=10
+        max_length=10,
     )
     lat = models.CharField(
         verbose_name='Широта',
-        max_length=10
+        max_length=10,
     )
 
     class Meta:
@@ -42,9 +40,7 @@ class Location(models.Model):
 
 
 class Cargo(models.Model):
-    """
-    Груз
-    """
+    """Модель представления груза """
     pick_up = models.ForeignKey(
         Location,
         related_name='pick_up',
@@ -74,15 +70,15 @@ class Cargo(models.Model):
     )
     created_at = models.DateTimeField(
         verbose_name='Время создания груза',
-        auto_now_add=True
+        auto_now_add=True,
     )
     updated_at = models.DateTimeField(
         verbose_name='Время изменения груза',
-        auto_now=True
+        auto_now=True,
     )
     description = models.CharField(
         verbose_name='Описание груза',
-        max_length=500
+        max_length=500,
     )
 
     class Meta:
@@ -92,9 +88,7 @@ class Cargo(models.Model):
 
 
 class Truck(models.Model):
-    """
-    Машина
-    """
+    """Модель представления машины (грузовика) """
     truck_number = models.CharField(
         verbose_name='Номер машины',
         max_length=5,
