@@ -4,9 +4,7 @@ from rest_framework import serializers
 
 
 class TruckSerializer(serializers.ModelSerializer):
-    """
-    Просмотр всех машин
-    """
+    """Просмотр всех машин"""
     class Meta:
         model = Truck
         fields = (
@@ -18,9 +16,7 @@ class TruckSerializer(serializers.ModelSerializer):
 
 
 class TruckSerializerEditField(serializers.ModelSerializer):
-    """
-    Позволяет редактировать только текущее месторасположение
-    """
+    """Позволяет редактировать только текущее месторасположение"""
     class Meta:
         model = Truck
         fields = ('current_location',)
@@ -51,7 +47,7 @@ class CargoSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'description',
-            'nearest_trucks'
+            'nearest_trucks',
         )
 
     def get_nearest_trucks_count(self, obj) -> int:
@@ -103,23 +99,22 @@ class CargoDetailSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'description',
-            'all_trucks'
+            'all_trucks',
         )
 
 
 class CargoSerializerEditField(serializers.ModelSerializer):
-    """
-    Позволяет редактировать только вес и описание
-    """
+    """Позволяет редактировать только вес и описание"""
     class Meta:
         model = Cargo
-        fields = ('weight', 'description')
+        fields = (
+            'weight',
+            'description',
+        )
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    """
-    Возвращает все локации
-    """
+    """Возвращает все локации"""
 
     class Meta:
         model = Location

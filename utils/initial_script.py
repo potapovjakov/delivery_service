@@ -92,7 +92,7 @@ def add_trucks(conn):
                 VALUES (%s, %s, %s)""", (
                     truck_number,
                     current_location,
-                    load_capacity
+                    load_capacity,
                 )
             )
             logger.debug(f'Inserted truck {truck_number} to db')
