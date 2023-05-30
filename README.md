@@ -13,7 +13,7 @@
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?style=for-the-badge&logo=stack-overflow&logoColor=white)
-![Python Friends TG GachiChat](https://img.shields.io/badge/-python%20friends-9cf?style=flat-square&logo=telegram)
+![Python Friends](https://img.shields.io/badge/-python%20friends-9cf?style=flat-square&logo=telegram)
 
 
 ## Краткое описание функционала:
